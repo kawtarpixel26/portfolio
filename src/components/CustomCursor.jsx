@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useSpring } from "framer-motion";
 import { profile } from "../data/portfolio";
 
 const HOVER = 'a, button, [role="button"], input, textarea, select, summary, .hover-target';
 
 // Dot + trailing ring that is gently pulled toward links and buttons.
-// Desktop only; off for touch, reduced motion, or profile.customCursor = false.
+// Shown with a mouse; off for touch-only devices or profile.customCursor = false.
 const CustomCursor = () => {
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -13,16 +13,17 @@ const CustomCursor = () => {
   const [clicking, setClicking] = useState(false);
   const magnet = useRef(null);
 
-  const ringX = useSpring(0, { damping: 20, stiffness: 150, mass: 0.5 });
-  const ringY = useSpring(0, { damping: 20, stiffness: 150, mass: 0.5 });
-  const dotX = useSpring(0, { damping: 35, stiffness: 400 });
-  const dotY = useSpring(0, { damping: 35, stiffness: 400 });
-  const ringScale = useSpring(1, { damping: 20, stiffness: 300 });
+  const ringX = useSpring(0, { damping: 24, stiffness: 120, mass: 0.6 });
+  const ringY = useSpring(0, { damping: 24, stiffness: 120, mass: 0.6 });
+  const dotX = useSpring(0, { damping: 30, stiffness: 260 });
+  const dotY = useSpring(0, { damping: 30, stiffness: 260 });
+  const ringScale = useSpring(1, { damping: 22, stiffness: 140 });
 
   useEffect(() => {
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!profile.customCursor || !fine || reduce) return;
+    // Match Angira's behaviour: show on anything with a mouse, hide only on touch-only devices.
+    const hasMouse = window.matchMedia("(any-pointer: fine)").matches;
+    const touchOnly = "ontouchstart" in window && !hasMouse;
+    if (!profile.customCursor || touchOnly) return;
     setEnabled(true);
 
     const onMove = (e) => {
@@ -70,21 +71,23 @@ const CustomCursor = () => {
           className="rounded-full border-primary/80"
           style={{ scale: ringScale, borderStyle: "solid" }}
           animate={{ width: hovering ? 56 : 40, height: hovering ? 56 : 40, opacity: visible ? (hovering ? 1 : 0.6) : 0, borderWidth: hovering ? 2 : 1.5 }}
-          transition={{ width: { duration: 0.3, ease: "easeOut" }, height: { duration: 0.3, ease: "easeOut" }, opacity: { duration: 0.2 } }}
+          transition={{ width: { duration: 0.45, ease: [0.22, 1, 0.36, 1] }, height: { duration: 0.45, ease: [0.22, 1, 0.36, 1] }, borderWidth: { duration: 0.3 }, opacity: { duration: 0.3 } }}
         />
       </motion.div>
 
       <motion.div className="pointer-events-none fixed left-0 top-0 z-[9999]" style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }} aria-hidden="true">
-        <motion.div className="rounded-full bg-primary" animate={{ width: clicking ? 12 : hovering ? 10 : 6, height: clicking ? 12 : hovering ? 10 : 6, opacity: visible ? 1 : 0 }} transition={{ duration: 0.15, ease: "easeOut" }} />
+        <motion.div className="rounded-full bg-primary" animate={{ width: clicking ? 12 : hovering ? 10 : 6, height: clicking ? 12 : hovering ? 10 : 6, opacity: visible ? 1 : 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} />
       </motion.div>
 
-      {hovering && (
-        <motion.div className="pointer-events-none fixed left-0 top-0 z-[9998]" style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 0.15, scale: 1 }} aria-hidden="true">
-          <div className="h-20 w-20 rounded-full bg-primary blur-xl" />
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {hovering && (
+          <motion.div className="pointer-events-none fixed left-0 top-0 z-[9998]" style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 0.15, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} aria-hidden="true">
+            <div className="h-20 w-20 rounded-full bg-primary blur-xl" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <style>{`@media (pointer: fine) { .has-custom-cursor, .has-custom-cursor * { cursor: none !important; } .has-custom-cursor input, .has-custom-cursor textarea { cursor: text !important; } }`}</style>
+      <style>{`@media (any-pointer: fine) { .has-custom-cursor, .has-custom-cursor * { cursor: none !important; } .has-custom-cursor input, .has-custom-cursor textarea { cursor: text !important; } }`}</style>
     </>
   );
 };

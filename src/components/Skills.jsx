@@ -13,7 +13,7 @@ const Skills = () => (
               const planned = typeof it !== "string" && it.planned;
               return (
                 <li key={name} title={planned ? "Planned: not built yet" : undefined}
-                  className={`rounded-full px-3.5 py-1.5 text-sm transition-colors hover:border-primary/50 hover:text-foreground ${planned ? "border border-dashed border-border text-muted-foreground" : "border border-border bg-card text-foreground/90"}`}>
+                  className={`rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300 ease-out hover:border-primary/50 hover:text-foreground ${planned ? "border border-dashed border-border text-muted-foreground" : "border border-border bg-card text-foreground/90"}`}>
                   {name}
                 </li>
               );

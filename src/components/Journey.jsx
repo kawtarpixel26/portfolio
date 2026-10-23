@@ -13,8 +13,8 @@ const Journey = () => {
           const isOpen = !!open[i];
           const current = i === 0;
           return (
-            <Reveal as="li" key={j.role} delay={i * 0.06} className="transition-opacity duration-300 group-hover/list:opacity-50 hover:!opacity-100">
-              <article className="surface p-6 md:p-7">
+            <Reveal as="li" key={j.role} delay={i * 0.06} >
+              <article className="surface p-6 transition-opacity duration-300 ease-out group-hover/list:opacity-50 hover:!opacity-100 md:p-7">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <h3 className="font-display text-lg font-semibold leading-snug">{j.role}</h3>
@@ -44,7 +44,7 @@ const Journey = () => {
                 {j.highlights.length > 2 && (
                   <button type="button" onClick={() => setOpen((o) => ({ ...o, [i]: !o[i] }))} aria-expanded={isOpen} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
                     {isOpen ? "Show less" : `Show ${j.highlights.length - 2} more`}
-                    <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`h-4 w-4 transition-transform duration-300 ease-out ${isOpen ? "rotate-180" : ""}`} />
                   </button>
                 )}
                 <ul className="mt-5 flex flex-wrap gap-1.5">

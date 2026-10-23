@@ -22,10 +22,10 @@ const Contact = () => {
         <Reveal delay={0.1} className="mt-10 flex flex-wrap items-center gap-3">
           <a href={primaryHref} target={profile.email ? undefined : "_blank"} rel="noopener noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90">
             {profile.email ? profile.email : "Message me on LinkedIn"}
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
           {profile.email && (
-            <button type="button" onClick={copy} className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium transition-colors hover:bg-secondary">
+            <button type="button" onClick={copy} className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium transition-colors duration-300 ease-out hover:bg-secondary">
               {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
               {copied ? "Copied" : "Copy email"}
             </button>
@@ -35,10 +35,10 @@ const Contact = () => {
           <div className="p-5"><p className="eyebrow mb-2 flex items-center gap-2"><MapPin className="h-3.5 w-3.5" />Based in</p><p className="text-sm">{profile.location}</p></div>
           <div className="p-5"><p className="eyebrow mb-2 flex items-center gap-2"><Mail className="h-3.5 w-3.5" />Studying at</p><p className="text-sm">{profile.school}</p></div>
           {profile.phone && profile.phoneHref && (
-            <a href={profile.phoneHref} className="p-5 transition-colors hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Phone className="h-3.5 w-3.5" />Phone</p><p className="text-sm">{profile.phone}</p></a>
+            <a href={profile.phoneHref} className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Phone className="h-3.5 w-3.5" />Phone</p><p className="text-sm">{profile.phone}</p></a>
           )}
-          <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Github className="h-3.5 w-3.5" />GitHub</p><p className="text-sm">khaliljabour4</p></a>
-          <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Linkedin className="h-3.5 w-3.5" />LinkedIn</p><p className="text-sm">Khalil Jabour</p></a>
+          <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Github className="h-3.5 w-3.5" />GitHub</p><p className="text-sm">khaliljabour4</p></a>
+          <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Linkedin className="h-3.5 w-3.5" />LinkedIn</p><p className="text-sm">Khalil Jabour</p></a>
         </Reveal>
       </div>
     </section>

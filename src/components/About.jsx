@@ -15,8 +15,8 @@ const About = () => (
         const Icon = icons[f.icon] || Server;
         return (
           <Reveal key={f.title} delay={i * 0.06}>
-            <motion.article whileHover={{ y: -4 }} transition={{ duration: 0.25 }} className="surface group h-full p-6 transition-colors hover:border-primary/40">
-              <span className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
+            <motion.article whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 220, damping: 26 }} className="surface group h-full p-6 transition-colors duration-300 ease-out hover:border-primary/40">
+              <span className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 ease-out group-hover:scale-110">
                 <Icon className="h-5 w-5" />
               </span>
               <h3 className="font-display text-lg font-semibold">{f.title}</h3>

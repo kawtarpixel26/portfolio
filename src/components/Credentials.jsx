@@ -8,10 +8,10 @@ const Credentials = () => (
       <div className="grid gap-4 sm:grid-cols-2">
         {certifications.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.06}>
-            <a href={c.url} target="_blank" rel="noopener noreferrer" className="surface group flex h-full flex-col p-6 transition-colors hover:border-primary/40">
+            <a href={c.url} target="_blank" rel="noopener noreferrer" className="surface group flex h-full flex-col p-6 transition-colors duration-300 ease-out hover:border-primary/40">
               <div className="flex items-center justify-between">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"><Award className="h-5 w-5" /></span>
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </div>
               <h3 className="mt-5 font-display text-base font-semibold">{c.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{c.issuer}</p>
