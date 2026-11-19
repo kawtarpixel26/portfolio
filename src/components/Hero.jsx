@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowRight, BadgeCheck, GraduationCap, Link2, PenLine } from "lucide-react";
 import { Github, Linkedin } from "./BrandIcons";
-import { profile, heroRoles, heroCaptions, stats, heroStrip } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -11,9 +11,12 @@ const found = import.meta.glob("../assets/profile.{jpg,jpeg,png,webp}", { eager:
 const photo = Object.values(found)[0];
 
 const TypingRoles = () => {
+  const { data: { heroRoles }, ui } = useLang();
   const [roleIndex, setRoleIndex] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => { setText(""); setIsDeleting(false); setRoleIndex(0); }, [heroRoles]);
 
   useEffect(() => {
     const role = heroRoles[roleIndex];
@@ -27,13 +30,13 @@ const TypingRoles = () => {
       else { setIsDeleting(false); setRoleIndex((i) => (i + 1) % heroRoles.length); }
     }, delay);
     return () => clearTimeout(t);
-  }, [text, isDeleting, roleIndex]);
+  }, [text, isDeleting, roleIndex, heroRoles]);
 
-  const article = /^[aeiou]/i.test(heroRoles[roleIndex]) ? "an" : "a";
+  const prefix = ui.iAm(heroRoles[roleIndex] || "");
   return (
-    <p className="text-base text-muted-foreground md:text-lg" aria-label={`I am ${article} ${heroRoles.join(", ")}`}>
+    <p className="text-base text-muted-foreground md:text-lg" aria-label={`${prefix}${heroRoles.join(", ")}`}>
       <span aria-hidden="true">
-        I am {article} <span className="text-primary">{text}</span>
+        {prefix}<span className="text-primary">{text}</span>
         <span className="ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[0.2em] animate-pulse bg-primary" />
       </span>
     </p>
@@ -44,12 +47,13 @@ const CAPTION_MS = 3000;
 
 // Name stays put; the line beneath rotates through your captions.
 const PortraitCaption = () => {
+  const { data: { profile, heroCaptions } } = useLang();
   const [index, setIndex] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setIndex((i) => (i + 1) % heroCaptions.length), CAPTION_MS);
     return () => clearInterval(id);
-  }, []);
-  const current = heroCaptions[index];
+  }, [heroCaptions.length]);
+  const current = heroCaptions[index % heroCaptions.length];
   return (
     <div className="min-w-0">
       <p className="font-display text-lg font-semibold">{profile.name}</p>
@@ -85,10 +89,11 @@ const PortraitCaption = () => {
 const fadeUp = (delay) => ({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.8, delay, ease } });
 
 export const socialIcon = (key) => ({ github: Github, linkedin: Linkedin, devto: PenLine }[key] || Link2);
-const labelFor = (key) => ({ github: "GitHub", linkedin: "LinkedIn", devto: "Writing on DEV" }[key] || key);
+const labelFor = (key, ui) => ({ github: "GitHub", linkedin: "LinkedIn", devto: ui.writingOnDev }[key] || key);
 
 const Hero = () => {
-  const socials = Object.entries(profile.links).map(([key, href]) => ({ href, label: labelFor(key), icon: socialIcon(key) }));
+  const { data: { profile, stats, heroStrip }, ui } = useLang();
+  const socials = Object.entries(profile.links).map(([key, href]) => ({ href, label: labelFor(key, ui), icon: socialIcon(key) }));
   return (
     <section id="home" className="relative overflow-hidden pt-28 md:pt-36">
       {/* Backdrop */}
@@ -104,25 +109,25 @@ const Hero = () => {
             <motion.div {...fadeUp(0)} className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-card/60 py-1.5 pl-2 pr-4 text-xs text-muted-foreground backdrop-blur">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-primary">
                 <GraduationCap className="h-3.5 w-3.5" />
-                Engineering student
+                {ui.engStudent}
               </span>
               {profile.role} · {profile.location}
             </motion.div>
 
             <motion.h1 {...fadeUp(0.08)} className="text-balance font-display text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl lg:text-[4.5rem]">
               <span className="sr-only">{profile.name}. </span>
-              Turning complex data into <span className="text-primary">intelligent</span>, useful systems.
+              {ui.heroTitle[0]}<span className="text-primary">{ui.heroTitle[1]}</span>{ui.heroTitle[2]}
             </motion.h1>
 
             <motion.div {...fadeUp(0.12)} className="mt-6 h-7"><TypingRoles /></motion.div>
 
             <motion.p {...fadeUp(0.16)} className="mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
-              I work across the whole path of a data product: how data is collected and stored, how models learn from it, and the Java backends and interfaces that put it in people's hands.
+              {ui.heroIntro}
             </motion.p>
 
             <motion.div {...fadeUp(0.24)} className="mt-10 flex flex-wrap items-center gap-3">
               <a href="#work" className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90">
-                View projects
+                {ui.viewProjects}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </a>
               <div className="ml-1 flex items-center gap-1">
@@ -140,7 +145,7 @@ const Hero = () => {
             <figure className="relative mx-auto max-w-sm lg:ml-auto lg:mr-0">
               <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card">
                 {photo ? (
-                  <img src={photo} alt={`Portrait of ${profile.name}`} width="800" height="1000" className="aspect-[4/5] w-full object-cover object-[50%_20%] grayscale" />
+                  <img src={photo} alt={`${ui.portraitOf} ${profile.name}`} width="800" height="1000" className="aspect-[4/5] w-full object-cover object-[50%_20%] grayscale" />
                 ) : (
                   <div className="relative flex aspect-[4/5] w-full items-center justify-center bg-card" aria-hidden="true">
                     <div className="absolute inset-0 bg-grid" />

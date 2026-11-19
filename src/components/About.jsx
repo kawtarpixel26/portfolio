@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { Server, Brain, Boxes, Cpu } from "lucide-react";
 import Section, { Reveal } from "./Section";
-import { profile, focusAreas } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
 const icons = { server: Server, brain: Brain, boxes: Boxes, cpu: Cpu };
 
-const About = () => (
-  <Section id="about" index="01" label="About" title="Data, models and the backends that carry them.">
+const About = () => {
+  const { data: { profile, focusAreas }, ui } = useLang();
+  return (
+  <Section id="about" index="01" label={ui.about.label} title={ui.about.title}>
     <Reveal>
       <p className="text-pretty text-lg leading-relaxed text-foreground/90 md:text-xl">{profile.summary}</p>
     </Reveal>
@@ -32,5 +34,6 @@ const About = () => (
       })}
     </div>
   </Section>
-);
+  );
+};
 export default About;

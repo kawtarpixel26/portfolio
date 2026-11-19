@@ -6,9 +6,10 @@ import Credentials from "../components/Credentials";
 import Skills from "../components/Skills";
 import Contact from "../components/Contact";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { profile } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
 export default function Home() {
+  const { data: { profile } } = useLang();
   useDocumentTitle(`${profile.name} — ${profile.role}`);
   return (
     <>

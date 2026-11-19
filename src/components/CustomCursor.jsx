@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useSpring } from "framer-motion";
-import { profile } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
 const HOVER = 'a, button, [role="button"], input, textarea, select, summary, .hover-target';
 
 // Dot + trailing ring that is gently pulled toward links and buttons.
 // Shown with a mouse; off for touch-only devices or profile.customCursor = false.
 const CustomCursor = () => {
+  const { data: { profile } } = useLang();
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);

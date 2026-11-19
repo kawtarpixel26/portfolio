@@ -2,12 +2,13 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Section, { Reveal } from "./Section";
-import { journey } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
 const Journey = () => {
+  const { data: { journey }, ui } = useLang();
   const [open, setOpen] = useState({ 0: true });
   return (
-    <Section id="journey" index="02" label="Journey" title="Where I'm learning and building." intro="Education and milestones, newest first.">
+    <Section id="journey" index="02" label={ui.journey.label} title={ui.journey.title} intro={ui.journey.intro}>
       <ol className="group/list space-y-4">
         {journey.map((j, i) => {
           const isOpen = !!open[i];
@@ -23,7 +24,7 @@ const Journey = () => {
                   <div className="flex items-center gap-2">
                     {current && (
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />Current
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />{ui.journey.current}
                       </span>
                     )}
                     <span className="font-mono text-xs text-muted-foreground">{j.period}</span>
@@ -43,7 +44,7 @@ const Journey = () => {
                 </ul>
                 {j.highlights.length > 2 && (
                   <button type="button" onClick={() => setOpen((o) => ({ ...o, [i]: !o[i] }))} aria-expanded={isOpen} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                    {isOpen ? "Show less" : `Show ${j.highlights.length - 2} more`}
+                    {isOpen ? ui.journey.less : ui.journey.more(j.highlights.length - 2)}
                     <ChevronDown className={`h-4 w-4 transition-transform duration-300 ease-out ${isOpen ? "rotate-180" : ""}`} />
                   </button>
                 )}

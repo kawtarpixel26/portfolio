@@ -1,14 +1,13 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Github } from "../components/BrandIcons";
-import { featuredProjects, otherProjects } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 import { getCaseStudy } from "../data/caseStudies";
 import { diagramMap } from "../components/diagrams/CaseDiagrams";
 import { previews } from "../components/diagrams/Previews";
 import { Reveal } from "../components/Section";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
-const allProjects = [...featuredProjects, ...otherProjects].filter((p) => p.caseStudy && getCaseStudy(p.caseStudy));
 
 function Block({ id, num, title, children }) {
   return (
@@ -23,6 +22,8 @@ function Block({ id, num, title, children }) {
 }
 
 export default function ProjectPage() {
+  const { data: { featuredProjects, otherProjects } } = useLang();
+  const allProjects = [...featuredProjects, ...otherProjects].filter((p) => p.caseStudy && getCaseStudy(p.caseStudy));
   const { slug } = useParams();
   const p = allProjects.find((x) => x.caseStudy === slug);
   const c = p && getCaseStudy(slug);

@@ -4,7 +4,7 @@ import { ArrowUpRight, ExternalLink, BookOpen } from "lucide-react";
 import { Github } from "./BrandIcons";
 import Section, { Reveal } from "./Section";
 import { previews } from "./diagrams/Previews";
-import { featuredProjects, otherProjects } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
 const statusStyle = (s) =>
   s === "In design" ? "bg-[hsl(var(--warn)/0.12)] text-[hsl(var(--warn))]" : "bg-primary/10 text-primary";
@@ -19,6 +19,7 @@ const Btn = ({ href, to, icon: Icon, children, primary }) => {
 };
 
 const Featured = ({ p, i }) => {
+  const { ui } = useLang();
   const Preview = previews[p.preview];
   return (
     <Reveal>
@@ -55,9 +56,9 @@ const Featured = ({ p, i }) => {
               {p.stack.map((s) => (<li key={s} className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[11px] text-muted-foreground">{s}</li>))}
             </ul>
             <div className="mt-6 flex flex-wrap gap-2">
-              {p.caseStudy && <Btn primary to={`/projects/${p.caseStudy}`} icon={BookOpen}>Case study</Btn>}
+              {p.caseStudy && <Btn primary to={`/projects/${p.caseStudy}`} icon={BookOpen}>{ui.work.caseStudy}</Btn>}
               {p.github && <Btn href={p.github} icon={Github}>GitHub</Btn>}
-              {p.live && <Btn href={p.live} icon={ExternalLink}>Live demo</Btn>}
+              {p.live && <Btn href={p.live} icon={ExternalLink}>{ui.work.live}</Btn>}
             </div>
           </div>
         </div>
@@ -66,14 +67,16 @@ const Featured = ({ p, i }) => {
   );
 };
 
-const Projects = () => (
-  <Section id="work" index="03" label="Work" title="Selected projects." intro="Real repositories, described as they are today.">
+const Projects = () => {
+  const { data: { featuredProjects, otherProjects }, ui } = useLang();
+  return (
+  <Section id="work" index="03" label={ui.work.label} title={ui.work.title} intro={ui.work.intro}>
     <div className="space-y-6">
       {featuredProjects.map((p, i) => (<Featured key={p.title} p={p} i={i} />))}
     </div>
     {otherProjects.length > 0 && (
       <>
-        <Reveal><h3 className="eyebrow mb-5 mt-16">More projects</h3></Reveal>
+        <Reveal><h3 className="eyebrow mb-5 mt-16">{ui.work.more}</h3></Reveal>
         <div className="grid gap-4 sm:grid-cols-2">
           {otherProjects.map((p, i) => {
             const Preview = previews[p.preview];
@@ -96,9 +99,9 @@ const Projects = () => (
                       {p.stack.map((s) => (<li key={s} className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[11px] text-muted-foreground">{s}</li>))}
                     </ul>
                     <div className="mt-auto flex flex-wrap gap-2 pt-5">
-                      {p.caseStudy && <Btn primary to={`/projects/${p.caseStudy}`} icon={BookOpen}>Case study</Btn>}
+                      {p.caseStudy && <Btn primary to={`/projects/${p.caseStudy}`} icon={BookOpen}>{ui.work.caseStudy}</Btn>}
                       {p.github && <Btn href={p.github} icon={Github}>GitHub</Btn>}
-                      {p.live && <Btn href={p.live} icon={ExternalLink}>Live demo</Btn>}
+                      {p.live && <Btn href={p.live} icon={ExternalLink}>{ui.work.live}</Btn>}
                     </div>
                   </div>
                 </motion.article>
@@ -109,5 +112,6 @@ const Projects = () => (
       </>
     )}
   </Section>
-);
+  );
+};
 export default Projects;

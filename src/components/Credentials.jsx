@@ -1,9 +1,11 @@
 import { Award, ArrowUpRight, GraduationCap } from "lucide-react";
 import Section, { Reveal } from "./Section";
-import { certifications, education } from "../data/portfolio";
+import { useLang } from "../LanguageContext";
 
-const Credentials = () => (
-  <Section id="credentials" index="04" label="Credentials" title="Certifications & education.">
+const Credentials = () => {
+  const { data: { certifications, education }, ui } = useLang();
+  return (
+  <Section id="credentials" index="04" label={ui.credentials.label} title={ui.credentials.title}>
     {(certifications.length > 0 || import.meta.env.DEV) && (
       <div className="grid gap-4 sm:grid-cols-2">
         {certifications.map((c, i) => (
@@ -44,5 +46,6 @@ const Credentials = () => (
       </article>
     </Reveal>
   </Section>
-);
+  );
+};
 export default Credentials;

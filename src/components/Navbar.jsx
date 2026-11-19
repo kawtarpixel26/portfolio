@@ -3,18 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { profile } from "../data/portfolio";
+import LangToggle from "./LangToggle";
+import { useLang } from "../LanguageContext";
 import { cn } from "../lib/utils";
 
-const navLinks = [
-  { id: "about", label: "About" },
-  { id: "journey", label: "Journey" },
-  { id: "work", label: "Projects" },
-  { id: "credentials", label: "Credentials" },
-  { id: "contact", label: "Contact" },
-];
+const navIds = ["about", "journey", "work", "credentials", "contact"];
 
 const Navbar = () => {
+  const { data: { profile }, ui } = useLang();
+  const navLinks = navIds.map((id) => ({ id, label: ui.nav[id] }));
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [active, setActive] = useState("");
@@ -39,14 +36,14 @@ const Navbar = () => {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, [onHome]);
+  }, [onHome, ui]);
 
   const to = (id) => ({ pathname: "/", hash: `#${id}` });
 
   return (
     <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", isScrolled || isMobileOpen ? "border-b border-border/60 bg-background/75 backdrop-blur-xl" : "border-b border-transparent")}>
-      <nav className="container flex h-16 max-w-6xl items-center justify-between" aria-label="Primary">
-        <Link to="/" className="group flex items-center gap-2.5" aria-label="Back to top">
+      <nav className="container flex h-16 max-w-6xl items-center justify-between" aria-label={ui.primaryNav}>
+        <Link to="/" className="group flex items-center gap-2.5" aria-label={ui.backToTop}>
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-50 motion-reduce:animate-none" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
@@ -71,12 +68,13 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-1.5">
+          <LangToggle />
           <ThemeToggle />
           <button
             type="button"
             onClick={() => setIsMobileOpen((v) => !v)}
             className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground md:hidden"
-            aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+            aria-label={isMobileOpen ? ui.closeMenu : ui.openMenu}
             aria-expanded={isMobileOpen}
           >
             {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
