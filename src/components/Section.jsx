@@ -20,11 +20,12 @@ export const Reveal = ({ children, delay = 0, className, as = "div", ...rest }) 
   );
 };
 
-// Two-column section: sticky label + title on the left, content on the right.
-const Section = ({ id, index, label, title, intro, children, className }) => (
+// Two-column section: label + title on the left, content on the right (scrolls together).
+// `wide` renders full width underneath both columns.
+const Section = ({ id, index, label, title, intro, aside, children, wide, className }) => (
   <section id={id} className={cn("relative py-16 md:py-24", className)}>
     <div className="container grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-12">
-      <Reveal className="self-start lg:sticky lg:top-28 lg:col-span-4">
+      <Reveal className="self-start lg:col-span-4">
         <p className="eyebrow mb-4">
           <span className="text-primary">{index}</span>
           <span className="mx-2 opacity-40">/</span>
@@ -32,8 +33,10 @@ const Section = ({ id, index, label, title, intro, children, className }) => (
         </p>
         <h2 className="text-balance font-display text-3xl font-semibold md:text-4xl">{title}</h2>
         {intro && <p className="mt-4 max-w-xs text-pretty text-[15px] leading-relaxed text-muted-foreground">{intro}</p>}
+        {aside}
       </Reveal>
-      <div className="min-w-0 lg:col-span-8">{children}</div>
+      {children && <div className="min-w-0 lg:col-span-8">{children}</div>}
+      {wide && <div className="min-w-0 lg:col-span-12">{wide}</div>}
     </div>
   </section>
 );

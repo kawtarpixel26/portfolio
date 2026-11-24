@@ -1,4 +1,4 @@
-# Khalil Jabour — Portfolio
+# Kawtar Imzilne — Portfolio
 
 Vite + React + Tailwind + framer-motion. Deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 

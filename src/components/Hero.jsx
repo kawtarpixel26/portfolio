@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, BadgeCheck, GraduationCap, Link2, PenLine } from "lucide-react";
 import { Github, Linkedin } from "./BrandIcons";
 import { useLang } from "../LanguageContext";
+import TechStack from "./TechStack";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -67,7 +68,7 @@ const PortraitCaption = () => {
             transition={{ duration: 0.45, ease }}
             className="flex items-center gap-1.5 whitespace-nowrap text-[13px] font-medium text-white/80"
           >
-            {current.certified && <BadgeCheck className="h-4 w-4 shrink-0 text-emerald-400" />}
+            {current.certified && <BadgeCheck className="h-4 w-4 shrink-0 text-primary" />}
             {current.text}
           </motion.p>
         </AnimatePresence>
@@ -76,7 +77,7 @@ const PortraitCaption = () => {
         {heroCaptions.map((c, i) => (
           <span key={c.text} className="relative h-[3px] w-6 overflow-hidden rounded-full bg-white/20">
             {i === index && (
-              <motion.span key={index} className="absolute inset-y-0 left-0 rounded-full bg-emerald-400" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: CAPTION_MS / 1000, ease: "linear" }} />
+              <motion.span key={index} className="absolute inset-y-0 left-0 rounded-full bg-primary" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: CAPTION_MS / 1000, ease: "linear" }} />
             )}
             {i < index && <span className="absolute inset-0 rounded-full bg-white/50" />}
           </span>
@@ -92,13 +93,24 @@ export const socialIcon = (key) => ({ github: Github, linkedin: Linkedin, devto:
 const labelFor = (key, ui) => ({ github: "GitHub", linkedin: "LinkedIn", devto: ui.writingOnDev }[key] || key);
 
 const Hero = () => {
-  const { data: { profile, stats, heroStrip }, ui } = useLang();
+  const { data: { profile, stats }, ui } = useLang();
   const socials = Object.entries(profile.links).map(([key, href]) => ({ href, label: labelFor(key, ui), icon: socialIcon(key) }));
   return (
     <section id="home" className="relative overflow-hidden pt-28 md:pt-36">
       {/* Backdrop */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-grid mask-fade" />
+        <video
+          className="absolute inset-0 h-full w-full object-cover opacity-50 dark:opacity-60"
+          src={`${import.meta.env.BASE_URL}hero-bg.mp4`}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        {/* Scrim keeps text readable and fades the video into the page */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
         <div className="absolute inset-0 bg-glow" />
       </div>
 
@@ -114,14 +126,14 @@ const Hero = () => {
               {profile.role} · {profile.location}
             </motion.div>
 
-            <motion.h1 {...fadeUp(0.08)} className="text-balance font-display text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl lg:text-[4.5rem]">
+            <motion.h1 {...fadeUp(0.08)} className="text-balance font-display text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-5xl lg:text-[3.5rem]">
               <span className="sr-only">{profile.name}. </span>
               {ui.heroTitle[0]}<span className="text-primary">{ui.heroTitle[1]}</span>{ui.heroTitle[2]}
             </motion.h1>
 
             <motion.div {...fadeUp(0.12)} className="mt-6 h-7"><TypingRoles /></motion.div>
 
-            <motion.p {...fadeUp(0.16)} className="mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
+            <motion.p {...fadeUp(0.16)} className="mt-5 max-w-xl text-pretty text-base leading-relaxed md:text-[17px] text-muted-foreground">
               {ui.heroIntro}
             </motion.p>
 
@@ -138,6 +150,15 @@ const Hero = () => {
                 ))}
               </div>
             </motion.div>
+
+            <motion.dl {...fadeUp(0.32)} className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-5">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <dd className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{stat.value}</dd>
+                  <dt className="mt-1 text-sm text-muted-foreground">{stat.label}</dt>
+                </div>
+              ))}
+            </motion.dl>
           </div>
 
           {/* Portrait */}
@@ -145,7 +166,7 @@ const Hero = () => {
             <figure className="relative mx-auto max-w-sm lg:ml-auto lg:mr-0">
               <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card">
                 {photo ? (
-                  <img src={photo} alt={`${ui.portraitOf} ${profile.name}`} width="800" height="1000" className="aspect-[4/5] w-full object-cover object-[50%_20%] grayscale" />
+                  <img src={photo} alt={`${ui.portraitOf} ${profile.name}`} width="800" height="1000" className="aspect-[4/5] w-full object-cover object-[50%_20%]" />
                 ) : (
                   <div className="relative flex aspect-[4/5] w-full items-center justify-center bg-card" aria-hidden="true">
                     <div className="absolute inset-0 bg-grid" />
@@ -165,26 +186,7 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        {/* Stats */}
-        <motion.dl {...fadeUp(0.4)} className="mt-20 grid grid-cols-2 overflow-hidden rounded-2xl border border-border bg-border shadow-[var(--surface-shadow)] md:mt-28 md:grid-cols-4 [&>div]:bg-card" style={{ gap: "1px" }}>
-          {stats.map((stat) => (
-            <div key={stat.label} className="p-6 md:p-8">
-              <dt className="sr-only">{stat.label}</dt>
-              <dd className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{stat.value}</dd>
-              <dd className="mt-3 max-w-[16rem] text-sm leading-snug text-muted-foreground">{stat.label}</dd>
-            </div>
-          ))}
-        </motion.dl>
-
-        {/* Core stack strip */}
-        <motion.div {...fadeUp(0.5)} className="flex flex-col items-center justify-between gap-4 border-b border-border py-10 md:flex-row">
-          <p className="eyebrow">{heroStrip.label}</p>
-          <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-            {heroStrip.items.map((c) => (
-              <li key={c} className="font-display text-base font-semibold tracking-tight text-muted-foreground/80 md:text-lg">{c}</li>
-            ))}
-          </ul>
-        </motion.div>
+        <TechStack />
       </div>
     </section>
   );

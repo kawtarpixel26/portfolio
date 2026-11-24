@@ -2,27 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system: editorial, neutral monochrome with a single emerald accent */
+/* Design system: editorial, neutral monochrome with a single sky-blue accent */
 @layer base {
   :root {
     --background: 60 9% 98%;
     --foreground: 24 10% 10%;
     --card: 0 0% 100%;
     --card-foreground: 24 10% 10%;
-    --primary: 161 94% 26%;
+    --primary: 207 37% 38%;
     --primary-foreground: 0 0% 100%;
     --secondary: 60 5% 94%;
     --secondary-foreground: 24 10% 10%;
     --muted: 60 5% 94%;
     --muted-foreground: 25 6% 36%;
-    --accent: 161 94% 26%;
+    --accent: 207 37% 38%;
     --accent-foreground: 0 0% 100%;
     --border: 20 6% 88%;
     --input: 20 6% 88%;
-    --ring: 161 94% 26%;
+    --ring: 207 37% 38%;
     --radius: 0.75rem;
     --grid-line: 24 10% 10% / 0.04;
-    --glow: 161 94% 30% / 0.07;
+    --glow: 207 37% 45% / 0.08;
     --surface-shadow: 0 1px 2px rgb(28 25 23 / 0.04), 0 6px 20px -10px rgb(28 25 23 / 0.10);
     --warn: #a8650a;
   }
@@ -31,19 +31,19 @@
     --foreground: 0 0% 95%;
     --card: 0 0% 6.5%;
     --card-foreground: 0 0% 95%;
-    --primary: 156 64% 52%;
+    --primary: 207 37% 59%;
     --primary-foreground: 0 0% 4%;
     --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 95%;
     --muted: 0 0% 11%;
     --muted-foreground: 0 0% 62%;
-    --accent: 156 64% 52%;
+    --accent: 207 37% 59%;
     --accent-foreground: 0 0% 4%;
     --border: 0 0% 14%;
     --input: 0 0% 14%;
-    --ring: 156 64% 52%;
+    --ring: 207 37% 59%;
     --grid-line: 0 0% 100% / 0.045;
-    --glow: 156 64% 52% / 0.14;
+    --glow: 207 37% 59% / 0.16;
     --surface-shadow: none;
     --warn: #f5b942;
   }

@@ -27,7 +27,7 @@ export default function ProjectPage() {
   const { slug } = useParams();
   const p = allProjects.find((x) => x.caseStudy === slug);
   const c = p && getCaseStudy(slug);
-  useDocumentTitle(p ? `${p.title} — case study · Khalil Jabour` : "Project not found");
+  useDocumentTitle(p ? `${p.title} — case study · Kawtar Imzilne` : "Project not found");
   if (!p || !c) return <Navigate to="/404" replace />;
 
   const i = allProjects.indexOf(p);

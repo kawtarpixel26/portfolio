@@ -6,7 +6,7 @@ const Credentials = () => {
   const { data: { certifications, education }, ui } = useLang();
   return (
   <Section id="credentials" index="04" label={ui.credentials.label} title={ui.credentials.title}>
-    {(certifications.length > 0 || import.meta.env.DEV) && (
+    {certifications.length > 0 && (
       <div className="grid gap-4 sm:grid-cols-2">
         {certifications.map((c, i) => (
           <Reveal key={c.title} delay={i * 0.06}>
@@ -21,14 +21,9 @@ const Credentials = () => {
             </a>
           </Reveal>
         ))}
-        {certifications.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-border p-6 text-sm text-muted-foreground sm:col-span-2">
-            Dev preview only: add certificates to <code className="font-mono">certifications</code> in <code className="font-mono">src/data/portfolio.js</code>. This box is hidden in the production build.
-          </div>
-        )}
       </div>
     )}
-    <Reveal className={certifications.length > 0 || import.meta.env.DEV ? "mt-6" : ""}>
+    <Reveal className={certifications.length > 0 ? "mt-6" : ""}>
       <article className="surface p-6 md:p-7">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex gap-4">

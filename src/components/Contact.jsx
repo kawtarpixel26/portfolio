@@ -1,16 +1,26 @@
-import { useState } from "react";
-import { Copy, Check, Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
 import { Github, Linkedin } from "./BrandIcons";
 import { Reveal } from "./Section";
 import { useLang } from "../LanguageContext";
 
+// Pill (or round icon) button with a glowing cyan → violet gradient border.
+const GlowLink = ({ href, label, round, external = true, children }) => (
+  <a
+    href={href}
+    aria-label={label}
+    title={label}
+    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    className="group rounded-full bg-gradient-to-r from-cyan-400 via-sky-400 to-violet-500 p-px shadow-[0_0_22px_-6px_rgba(56,189,248,0.55),0_0_22px_-6px_rgba(139,92,246,0.55)] transition-shadow duration-300 hover:shadow-[0_0_30px_-4px_rgba(56,189,248,0.7),0_0_30px_-4px_rgba(139,92,246,0.7)]"
+  >
+    <span className={`flex items-center justify-center gap-2.5 rounded-full bg-background text-sm font-medium text-foreground transition-colors group-hover:bg-background/80 ${round ? "h-12 w-12" : "h-12 px-6"}`}>
+      {children}
+    </span>
+  </a>
+);
+
 const Contact = () => {
   const { data: { profile, contactIntro }, ui } = useLang();
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(profile.email); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { /* ignore */ }
-  };
-  const primaryHref = profile.email ? `mailto:${profile.email}` : profile.links.linkedin;
   return (
     <section id="contact" className="relative py-20 md:py-32">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-glow opacity-60" />
@@ -20,16 +30,19 @@ const Contact = () => {
           <h2 className="text-balance font-display text-5xl font-semibold tracking-[-0.035em] md:text-7xl lg:text-8xl">{ui.contact.title}</h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{contactIntro}</p>
         </Reveal>
-        <Reveal delay={0.1} className="mt-10 flex flex-wrap items-center gap-3">
-          <a href={primaryHref} target={profile.email ? undefined : "_blank"} rel="noopener noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90">
-            {profile.email ? profile.email : ui.contact.linkedinMsg}
-            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
+        <Reveal delay={0.1} className="mt-10 flex flex-wrap items-center gap-4">
+          <GlowLink href={profile.links.linkedin} label="LinkedIn" round>
+            <Linkedin className="h-5 w-5" />
+          </GlowLink>
+          {profile.whatsappHref && (
+            <GlowLink href={profile.whatsappHref} label={`${ui.contact.whatsapp}: ${profile.whatsapp}`} round>
+              <SiWhatsapp className="h-5 w-5 text-[#25D366]" />
+            </GlowLink>
+          )}
           {profile.email && (
-            <button type="button" onClick={copy} className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium transition-colors duration-300 ease-out hover:bg-secondary">
-              {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
-              {copied ? ui.contact.copied : ui.contact.copy}
-            </button>
+            <GlowLink href={`mailto:${profile.email}`} label={`${ui.contact.email}: ${profile.email}`} external={false} round>
+              <Mail className="h-5 w-5 text-primary" />
+            </GlowLink>
           )}
         </Reveal>
         <Reveal delay={0.15} className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4 [&>*]:bg-card">
@@ -38,8 +51,8 @@ const Contact = () => {
           {profile.phone && profile.phoneHref && (
             <a href={profile.phoneHref} className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Phone className="h-3.5 w-3.5" />{ui.contact.phone}</p><p className="text-sm">{profile.phone}</p></a>
           )}
-          <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Github className="h-3.5 w-3.5" />GitHub</p><p className="text-sm">khaliljabour4</p></a>
-          <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Linkedin className="h-3.5 w-3.5" />LinkedIn</p><p className="text-sm">Khalil Jabour</p></a>
+          <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Github className="h-3.5 w-3.5" />GitHub</p><p className="text-sm">kawtarpixel26</p></a>
+          <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" className="p-5 transition-colors duration-300 ease-out hover:bg-secondary"><p className="eyebrow mb-2 flex items-center gap-2"><Linkedin className="h-3.5 w-3.5" />LinkedIn</p><p className="text-sm">Kawtar Imzilne</p></a>
         </Reveal>
       </div>
     </section>

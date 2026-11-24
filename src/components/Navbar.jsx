@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
+import { Menu, X, FileText } from "lucide-react";
 import LangToggle from "./LangToggle";
 import { useLang } from "../LanguageContext";
 import { cn } from "../lib/utils";
 
-const navIds = ["about", "journey", "work", "credentials", "contact"];
+const navIds = ["home", "about", "journey", "work", "credentials", "contact"];
 
 const Navbar = () => {
   const { data: { profile }, ui } = useLang();
@@ -43,12 +42,8 @@ const Navbar = () => {
   return (
     <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", isScrolled || isMobileOpen ? "border-b border-border/60 bg-background/75 backdrop-blur-xl" : "border-b border-transparent")}>
       <nav className="container flex h-16 max-w-6xl items-center justify-between" aria-label={ui.primaryNav}>
-        <Link to="/" className="group flex items-center gap-2.5" aria-label={ui.backToTop}>
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-50 motion-reduce:animate-none" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-          </span>
-          <span className="font-display text-[15px] font-semibold tracking-tight">{profile.name}</span>
+        <Link to="/" className="group flex items-center" aria-label={ui.backToTop}>
+          <span className="font-['Silkscreen',monospace] text-[17px] uppercase leading-none">{profile.name}</span>
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -68,8 +63,15 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-1.5">
+          <a
+            href={`${import.meta.env.BASE_URL}Kawtar-Imzilne-CV.pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 items-center gap-1.5 rounded-full bg-primary px-3.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            <FileText className="h-3.5 w-3.5" />{ui.resume}
+          </a>
           <LangToggle />
-          <ThemeToggle />
           <button
             type="button"
             onClick={() => setIsMobileOpen((v) => !v)}
