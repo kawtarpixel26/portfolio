@@ -214,21 +214,6 @@ export const education = {
 };
 
 // ---------------------------------------------------------------------------
-// 7. COMPÉTENCES
-//    { name: "Kafka", planned: true } = pastille en pointillés (choisi, pas encore réalisé)
-// ---------------------------------------------------------------------------
-export const skillGroups = [
-  { label: "Langages", items: ["Java", "Python", "SQL", "R", "JavaScript", "C++"] },
-  { label: "Backend", items: ["Jakarta EE / Servlets", "Spring Boot", "Spring Security", "JPA / Hibernate 6", "JWT + BCrypt", "APIs REST", "FastAPI", "Microservices"] },
-  { label: "Data & ML", items: ["pandas", "NumPy", "scikit-learn", "OpenCV", "Ollama (LLM locaux)", { name: "spaCy", planned: true }, { name: "sentence-transformers", planned: true }, { name: "statsmodels", planned: true }] },
-  { label: "Big Data & BI", items: ["Hadoop", "Spark", "Entrepôts de données (schéma en étoile)", "Power BI", { name: "Apache Kafka", planned: true }, { name: "dbt", planned: true }] },
-  { label: "Bases de données", items: ["MySQL", "SQL Server", "PostgreSQL", "MongoDB"] },
-  { label: "DevOps & qualité", items: ["Git", "Docker Compose", "Nginx", "Jenkins", "SonarQube", "JUnit 5", "Mockito", "Prometheus", "Grafana", "GitHub Actions"] },
-  { label: "Frontend", items: ["React", "HTML / CSS / JavaScript", "Tailwind CSS", { name: "Angular", planned: true }, { name: "Flutter", planned: true }] },
-  { label: "Embarqué & IoT", items: ["ESP8266 / NodeMCU", "Arduino C++", "Server-sent events", "mDNS"] },
-];
-
-// ---------------------------------------------------------------------------
 // 8. CONTACT
 // ---------------------------------------------------------------------------
 export const contactIntro =

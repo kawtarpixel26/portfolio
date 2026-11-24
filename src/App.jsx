@@ -5,7 +5,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CustomCursor from "./components/CustomCursor";
 import Home from "./pages/Home";
-import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 
 function ScrollManager() {
@@ -30,7 +29,6 @@ export default function App() {
       <motion.main key={pathname} id="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/projects/:slug" element={<ProjectPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </motion.main>

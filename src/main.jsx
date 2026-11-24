@@ -6,7 +6,6 @@ import "@fontsource-variable/inter-tight";
 import "@fontsource-variable/jetbrains-mono";
 import "@fontsource/silkscreen/400.css";
 import "./index.css";
-import "./styles/project.css";
 import App from "./App.jsx";
 import { LanguageProvider } from "./LanguageContext";
 import { SpeedInsights } from "@vercel/speed-insights/react";

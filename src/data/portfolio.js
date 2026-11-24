@@ -175,7 +175,6 @@ export const journey = [
 // ---------------------------------------------------------------------------
 // 5. PROJECTS
 //    featuredProjects → big cards.   otherProjects → small cards in "More projects".
-//    caseStudy: "slug"  → adds a "Case study" button (content in caseStudies.js).
 //    status: "Built" | "Prototype" | "In design"  (In design shows in amber)
 //    github / live: leave out (or "") to hide that button.
 // ---------------------------------------------------------------------------
@@ -237,21 +236,6 @@ export const education = {
     "Data Analysis & Information Systems",
   ],
 };
-
-// ---------------------------------------------------------------------------
-// 7. SKILLS — groups of chips. A plain string is a skill you have used.
-//    { name: "Kafka", planned: true } shows a dashed chip (chosen, not built yet).
-// ---------------------------------------------------------------------------
-export const skillGroups = [
-  { label: "Languages", items: ["Java", "Python", "SQL", "R", "JavaScript", "C++"] },
-  { label: "Backend", items: ["Jakarta EE / Servlets", "Spring Boot", "Spring Security", "JPA / Hibernate 6", "JWT + BCrypt", "REST APIs", "FastAPI", "Microservices"] },
-  { label: "Data & ML", items: ["pandas", "NumPy", "scikit-learn", "OpenCV", "Ollama (local LLMs)", { name: "spaCy", planned: true }, { name: "sentence-transformers", planned: true }, { name: "statsmodels", planned: true }] },
-  { label: "Big Data & BI", items: ["Hadoop", "Spark", "Data warehousing (star schema)", "Power BI", { name: "Apache Kafka", planned: true }, { name: "dbt", planned: true }] },
-  { label: "Databases", items: ["MySQL", "SQL Server", "PostgreSQL", "MongoDB"] },
-  { label: "DevOps & quality", items: ["Git", "Docker Compose", "Nginx", "Jenkins", "SonarQube", "JUnit 5", "Mockito", "Prometheus", "Grafana", "GitHub Actions"] },
-  { label: "Frontend", items: ["React", "HTML / CSS / JavaScript", "Tailwind CSS", { name: "Angular", planned: true }, { name: "Flutter", planned: true }] },
-  { label: "Embedded & IoT", items: ["ESP8266 / NodeMCU", "Arduino C++", "Server-sent events", "mDNS"] },
-];
 
 // ---------------------------------------------------------------------------
 // 8. CONTACT text
