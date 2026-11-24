@@ -9,6 +9,7 @@ import "./index.css";
 import "./styles/project.css";
 import App from "./App.jsx";
 import { LanguageProvider } from "./LanguageContext";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,6 +17,8 @@ createRoot(document.getElementById("root")).render(
       <LanguageProvider>
         <App />
       </LanguageProvider>
+      {/* Vercel Speed Insights: only collects data when the site is deployed on Vercel */}
+      <SpeedInsights />
     </BrowserRouter>
   </React.StrictMode>
 );
